@@ -25,8 +25,6 @@ jobs:
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -102,8 +100,6 @@ jobs:
     needs: build_base
     runs-on: ubuntu-latest
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -159,8 +155,6 @@ jobs:
       matrix:
         variant: [nonfree, nonfree-shared]
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install buildx
@@ -225,8 +219,6 @@ jobs:
       matrix:
         variant: [nonfree, nonfree-shared]
     steps:
-      - name: Free Disk-Space
-        run: df -h && sudo apt-get clean && docker system prune -a -f && sudo rm -rf /opt/ghc /usr/local/.ghcup /usr/local/lib/android && df -h
       - name: Checkout
         uses: actions/checkout@v4
       - name: Login to Docker
