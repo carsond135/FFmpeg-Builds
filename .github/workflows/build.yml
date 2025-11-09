@@ -70,7 +70,7 @@ jobs:
         run: |
           echo "dltagname=$(./util/get_dl_cache_tag.sh)" >> $GITHUB_OUTPUT
       - name: Cache
-        if: ${{ !cancelled() && }}
+        if: ${{ !cancelled() }}
         uses: actions/cache@v4
         with:
           path: .cache/downloads
@@ -78,14 +78,14 @@ jobs:
           restore-keys: |
             download-cache-
       - name: Update Cache
-        if: ${{ !cancelled() && }}
+        if: ${{ !cancelled() }}
         run: |
           set -e
           ./download.sh
           ./util/clean_cache.sh
           tar czf .cache/cache.tar.gz .cache/downloads/*
       - name: Upload cache artifact
-        if: ${{ !cancelled() && }}
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: download-cache
