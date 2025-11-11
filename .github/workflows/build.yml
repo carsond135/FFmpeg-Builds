@@ -15,7 +15,6 @@ on:
 
 env:
   DOCKER_BUILDKIT: 1
-  TARGET: win64
 
 jobs:
   build_base:
@@ -124,7 +123,7 @@ jobs:
       - name: Image Name
         id: imagename
         run: |
-          IMG="${GITHUB_REPOSITORY,,}/base-$TARGET"
+          IMG="${GITHUB_REPOSITORY,,}/base-win64"
           IMG="${IMG/ /-}"
           echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
@@ -134,7 +133,7 @@ jobs:
       - name: Build target base image
         uses: docker/build-push-action@v6
         with:
-          context: images/base-$TARGET
+          context: images/base-win64
           pull: true
           push: true
           provenance: false
@@ -184,7 +183,7 @@ jobs:
       - name: Image Name
         id: imagename
         run: |
-          IMG="${GITHUB_REPOSITORY,,}/$TARGET-${{ matrix.variant }}"
+          IMG="${GITHUB_REPOSITORY,,}/win64-${{ matrix.variant }}"
           IMG="${IMG/ /-}"
           echo "name=ghcr.io/${IMG}" >> $GITHUB_OUTPUT
           echo "rawname=${IMG#*/}" >> $GITHUB_OUTPUT
@@ -195,7 +194,7 @@ jobs:
       - name: Stop Commands
         run: T="$(echo -n ${{ secrets.GITHUB_TOKEN }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
       - name: Generate Dockerfile
-        run: ./generate.sh $TARGET ${{ matrix.variant }}
+        run: ./generate.sh win64 ${{ matrix.variant }}
       - name: Cache
         uses: actions/cache/restore@v4
         with:
@@ -248,11 +247,11 @@ jobs:
       - name: Build ffmpeg
         run: |
           T="$(echo -n ${{ secrets.GITHUB_TOKEN }} | sha256sum | head -c 64)" && echo -e "::add-mask::${T}\n::stop-commands::${T}"
-          ./build.sh $TARGET ${{ matrix.variant }}
+          ./build.sh win64 ${{ matrix.variant }}
       - name: Replace spaces in string
         id: strs
         run: |
-          SLUG="$TARGET-${{ matrix.variant }}"
+          SLUG="win64-${{ matrix.variant }}"
           echo "artifact_slug=${SLUG// /-}" >> $GITHUB_OUTPUT
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
